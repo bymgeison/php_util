@@ -1,5 +1,5 @@
 <?php
-namespace GX4\Control\;
+namespace GX4\Control;
 
 use Adianti\Registry\TSession;
 
