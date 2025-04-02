@@ -1,0 +1,35 @@
+{
+    "name":"bymgeison/php_util",
+    "description":"Classe uteis PHP / Adianti Framework",
+    "type":"library",
+    "license": "GPL-3.0-or-later",
+    "authors":[
+        {
+            "name":"GX4 Desenvolvimento",
+            "email":"bym.geison@gmail.com"
+        }
+    ],
+    "autoload":{
+        "files":[
+            "src/Util.php",
+            "src/Whoops.php"
+        ],
+        "psr-4": {
+            "GX4\\Util\\": "src/util",
+            "GX4\\Trait\\": "src/trait",
+            "GX4\\Service\\": "src/service",
+            "GX4\\Exception\\": "src/exception",
+            "GX4\\Control\\": "gx4/control",
+            "GX4\\Database\\": "gx4/database",
+            "GX4\\Widget\\Datagrid\\": "gx4/widget/datagrid",
+            "GX4\\Widget\\Form\\": "gx4/widget/form",
+            "GX4\\Widget\\Dialog\\": "gx4/widget/dialog"
+        }
+    },
+    "require": {
+        "php": ">=7.0",
+        "phpmailer/phpmailer": "^6.0",
+        "filp/whoops": "^2.14",
+        "aws/aws-sdk-php": "^3.330"
+    }
+}
