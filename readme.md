@@ -36,28 +36,28 @@ O uso do PHP Útil nos projetos da Golfran garante que todos os sistemas compart
 Estrutura típica de projetos com Adianti:
 
 ```plaintext
-gx4/                                   # Espelho da estrutura de um projeto Adianti
-├── control/                            # Controllers das páginas (TPage, TWindow)
-├── database/                           # Regras para carregamento de dados
-├── include/                            # Templates HTML
-├── widget/                             # Bibliotecas auxiliares
-├── docs/                               # Documentação do Projeto
-│   ├── exemplos/                       # Exemplos de código, como o `default_values`
-│   │   ├── exemplo-default-values.md   # Exemplo de uso do `default_values()`
-│   │   └── exemplo-outro.md            # Outro exemplo de código
-│   ├── configuracao/                   # Arquivos de configuração e instruções
-│   │   ├── configuracao-banco.md       # Como configurar o banco de dados
-│   │   └── configuracao-firewall.md    # Arquivo de configuração para firewall (exemplo)
-│   ├── boas-praticas/                  # Boas práticas de desenvolvimento
-│   │   ├── boas-praticas-crud.md       # Como utilizar o CRUD no Adianti de forma eficiente
-│   │   └── boas-praticas-permissoes.md # Uso correto de permissões no Adianti
-│   ├── tutoriais/                      # Tutoriais completos para novos usuários
-│   │   ├── tutorial-installacao.md     # Como instalar o PHP Útil e Adianti
-│   │   └── tutorial-configuracao.md    # Como configurar o PHP Útil no seu projeto
-│   └── referencias/                    # Referências gerais sobre o framework ou arquitetura
+gx4/                                        # Espelho da estrutura de um projeto Adianti
+├── control/                                # Controllers das páginas (TPage, TWindow)
+├── database/                               # Regras para carregamento de dados
+├── include/                                # Templates HTML
+├── widget/                                 # Bibliotecas auxiliares
+├── docs/                                   # Documentação do Projeto
+│   ├── exemplos/                           # Exemplos de código, como o `default_values`
+│   │   ├── exemplo-default-values.md       # Exemplo de uso do `default_values()`
+│   │   └── exemplo-outro.md                # Outro exemplo de código
+│   ├── configuracao/                       # Arquivos de configuração e instruções
+│   │   ├── configuracao-banco.md           # Como configurar o banco de dados
+│   │   └── configuracao-firewall.md        # Arquivo de configuração para firewall (exemplo)
+│   ├── boas-praticas/                      # Boas práticas de desenvolvimento
+│   │   ├── boas-praticas-crud.md           # Como utilizar o CRUD no Adianti de forma eficiente
+│   │   └── boas-praticas-permissoes.md     # Uso correto de permissões no Adianti
+│   ├── tutoriais/                          # Tutoriais completos para novos usuários
+│   │   ├── tutorial-installacao.md         # Como instalar o PHP Útil e Adianti
+│   │   └── tutorial-configuracao.md        # Como configurar o PHP Útil no seu projeto
+│   └── referencias/                        # Referências gerais sobre o framework ou arquitetura
 │       ├── referencia-adiante-framework.md # Detalhes sobre o Adianti Framework
-│       └── referencia-banco.md         # Arquitetura de banco de dados no projeto
-├── index.php                           # Ponto de entrada
+│       └── referencia-banco.md             # Arquitetura de banco de dados no projeto
+├── index.php                               # Ponto de entrada
 
 ```
 
