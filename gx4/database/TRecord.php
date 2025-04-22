@@ -25,53 +25,8 @@ class TRecord extends \Adianti\Database\TRecord
     */
     public function default_values()
     {
-            // Este método pode ser implementado nas classes filhas
-            // para aplicar valores padrão ao registro.
-            // Exemplo:
-                // <pre><?php
-namespace App\Model;
-
-use GX4\Database\TRecord;
-
-    /**
- * Classe Cliente
- *
- * Representa a entidade cliente com valores padrão ao ser instanciada.
- */
-class Cliente extends TRecord
-{
-    const TABLENAME  = 'clientes';
-    const PRIMARYKEY = 'id';
-    const IDPOLICY   = 'serial';    // ou 'max' para Firebird
-
-        /**
-     * Construtor
-     *
-     * Aplica os valores padrão definidos
-     *
-     * @param int|null $id
-     * @param bool $callObjectLoad
-     */
-    public function __construct($id = NULL, $callObjectLoad = TRUE)
-    {
-        parent::__construct($id, $callObjectLoad);
-
-            // Aplica valores padrão caso seja um novo registro
-        if (is_null($id)) {
-            $this->default_values();
-        }
-    }
-
-        /**
-     * Define valores padrão para um novo cliente
-     */
-    public function default_values()
-    {
-        $this->ativo    = 'S';
-        $this->estado   = 'RS';
-        $this->data_cad = date('Y-m-d');
-    }
-}<pre/>
+        // Este método pode ser implementado nas classes filhas
+        // para aplicar valores padrão ao registro.
     }
 
     /*

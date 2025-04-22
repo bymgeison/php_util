@@ -12,7 +12,7 @@ Classe base para mapeamento objeto-relacional (ORM).
 ```php
 class Cliente extends TRecord
 {
-    const TABLENAME = 'clientes';
+    const TABLENAME  = 'clientes';
     const PRIMARYKEY = 'id';
-    const IDPOLICY = 'serial'; // auto-incremento
+    const IDPOLICY   = 'serial';    // auto-incremento
 }
