@@ -27,7 +27,6 @@ O uso do PHP Útil nos projetos da Golfran garante que todos os sistemas compart
 - Gustavo Modena – Desenvolvedor
 - Gabriel Mânica – Desenvolvedor
 - Geison Carlos Shida – Analista
-- ...
 
 ---
 
