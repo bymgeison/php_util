@@ -65,7 +65,7 @@ gx4/                                        # Espelho da estrutura de um projeto
 
 ## 📚 Conteúdo da Documentação
 
-- [Exemplo: Usando `default_values()` em TRecord](gx4/docs/exemplos/)
+- [Exemplos](gx4/docs/exemplos/)
 - [Configuração do Banco de Dados](gx4/docs/configuracoes/)
 - [Boas Práticas](gx4/docs/boas-praticas/)
 - [Tutorial de Instalação](gx4/docs/tutoriais/)
