@@ -16,6 +16,21 @@ class TGx4
     const SABADO  = 6;
 
     /**
+     * Exibe um ou mais valores com `var_dump` formatado em HTML.
+     *
+     * @param mixed ...$valores Um ou mais valores a serem exibidos.
+     * @return void
+     */
+    public static function debug(...$valores): void
+    {
+        foreach ($valores as $valor) {
+            echo '<pre>';
+            var_dump($valor);
+            echo '</pre>';
+        }
+    }
+
+    /**
      * Valida um CPF ou CNPJ
      *
      * @param string $valor
@@ -130,5 +145,69 @@ class TGx4
         }
 
         return $dias[$semana];
+    }
+
+    /**
+     * Normaliza um texto removendo acentos e caracteres especiais.
+     *
+     * @param string $valor Texto a ser normalizado.
+     * @param bool $maiusculas Define se o texto retornado deve ser em maiúsculas (true) ou minúsculas (false).
+     * @return string Texto limpo, com ou sem caixa alta.
+     */
+    public static function normalizaTexto(string $valor, bool $maiusculas = true): string
+    {
+        $mapa = [
+            "à" => "a", "á" => "a", "ã" => "a", "â" => "a", "ä" => "a",
+            "è" => "e", "é" => "e", "ê" => "e", "ë" => "e",
+            "ì" => "i", "í" => "i", "î" => "i", "ï" => "i",
+            "ò" => "o", "ó" => "o", "õ" => "o", "ô" => "o", "ö" => "o",
+            "ù" => "u", "ú" => "u", "û" => "u", "ü" => "u",
+            "ç" => "c",
+
+            "À" => "a", "Á" => "a", "Ã" => "a", "Â" => "a", "Ä" => "a",
+            "È" => "e", "É" => "e", "Ê" => "e", "Ë" => "e",
+            "Ì" => "i", "Í" => "i", "Î" => "i", "Ï" => "i",
+            "Ò" => "o", "Ó" => "o", "Õ" => "o", "Ô" => "o", "Ö" => "o",
+            "Ù" => "u", "Ú" => "u", "Û" => "u", "Ü" => "u",
+            "Ç" => "c",
+
+            "º" => "", "#" => "", "&" => "e", '"' => "", "'" => "",
+            "´" => "", "`" => "", "¨" => "", "*" => "", "|" => "",
+            ";" => "", "?" => "", "½" => "", "¿" => "", "ª" => "",
+            "-" => "", "(" => "", ")" => "", "\\" => "", "/" => "",
+            ":" => "", "<" => "", ">" => "", "$" => "",
+        ];
+
+        $texto = strtr($valor, $mapa);
+        $texto = trim($texto);
+        return $maiusculas ? strtoupper($texto) : strtolower($texto);
+    }
+
+    /**
+     * Aplica uma máscara ao valor informado, utilizando o caractere "#" como posição a ser preenchida.
+     *
+     * @param string $mask Máscara desejada (use "#" como marcador de posição).
+     * @param string $value Valor que será aplicado na máscara.
+     * @return string Valor formatado com a máscara.
+     */
+    public static function applyMask(string $mask, string $value): string
+    {
+        if (empty($value)) {
+            return $value;
+        }
+
+        $value = preg_replace('/\s+/', '', $value);
+        $result = '';
+        $index = 0;
+
+        for ($i = 0; $i < strlen($mask); $i++) {
+            if ($mask[$i] === '#' && isset($value[$index])) {
+                $result .= $value[$index++];
+            } else {
+                $result .= $mask[$i];
+            }
+        }
+
+        return $result;
     }
 }
