@@ -47,3 +47,35 @@ TGx4::formataDocumento('11222333000181');     // "11.222.333/0001-81"
 TGx4::formataDocumento('123');                // Exception: Documento inválido!
 TGx4::formataDocumento('11.222.333/0001-81'); // "11.222.333/0001-81"
 ```
+## 📅 `TGx4::semana(int $semana): array`
+
+Retorna um array contendo o número e a descrição do dia da semana correspondente ao número informado (0 a 6), onde 0 é domingo.
+
+### Parâmetros
+- `int $semana`: Número do dia da semana, sendo:
+  - `0` para **Domingo**
+  - `1` para **Segunda-feira**
+  - `2` para **Terça-feira**
+  - `3` para **Quarta-feira**
+  - `4` para **Quinta-feira**
+  - `5` para **Sexta-feira**
+  - `6` para **Sábado**
+
+### Retorno
+- `array`: Um array associativo com:
+  - `numero` → número do dia da semana (0 a 6)
+  - `descricao` → nome do dia da semana por extenso
+
+### Exceções
+- Lança `Exception` com a mensagem `Dia da semana inválido! Deve ser um número entre 0 e 6.` se o parâmetro estiver fora do intervalo permitido.
+
+### Exemplos
+```php
+TGx4::semana(0);
+// Retorna: ['numero' => 0, 'descricao' => 'Domingo']
+
+TGx4::semana(3);
+// Retorna: ['numero' => 3, 'descricao' => 'Quarta-feira']
+
+TGx4::semana(7);
+// Exception: Dia da semana inválido! Deve ser um número entre 0 e 6.
