@@ -16,6 +16,7 @@
         ],
         "psr-4": {
             "GX4\\Util\\": "src/util",
+            "TGX4\\Util\\": "src/util",
             "GX4\\Trait\\": "src/trait",
             "GX4\\Service\\": "src/service",
             "GX4\\Exception\\": "src/exception",

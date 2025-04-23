@@ -1,0 +1,134 @@
+<?php
+
+namespace TGX4\Util;
+
+use Exception;
+
+class TGx4
+{
+    // Constantes para os dias da semana (agora o domingo é 0)
+    const DOMINGO = 0;
+    const SEGUNDA = 1;
+    const TERCA   = 2;
+    const QUARTA  = 3;
+    const QUINTA  = 4;
+    const SEXTA   = 5;
+    const SABADO  = 6;
+
+    /**
+     * Valida um CPF ou CNPJ
+     *
+     * @param string $valor
+     * @return bool
+     * @throws Exception
+     */
+    public static function validaDocumento(string $valor): bool
+    {
+        // Remove tudo que não for número
+        $numero = preg_replace('/\D/', '', $valor);
+
+        // Verifica se é CPF (11 dígitos)
+        if (strlen($numero) === 11) {
+            if (preg_match('/^(\d)\1{10}$/', $numero)) {
+                throw new Exception("CPF inválido: repetição de dígitos.");
+            }
+
+            for ($t = 9; $t < 11; $t++) {
+                $soma = 0;
+                for ($i = 0; $i < $t; $i++) {
+                    $soma += $numero[$i] * (($t + 1) - $i);
+                }
+
+                $digitoEsperado = ($soma * 10) % 11;
+                $digitoEsperado = ($digitoEsperado === 10) ? 0 : $digitoEsperado;
+
+                if ($numero[$t] != $digitoEsperado) {
+                    throw new Exception("CPF inválido: dígito verificador incorreto.");
+                }
+            }
+
+            return true;
+
+        } elseif (strlen($numero) === 14) { // CNPJ
+
+            if (preg_match('/^(\d)\1{13}$/', $numero)) {
+                throw new Exception("CNPJ inválido: repetição de dígitos.");
+            }
+
+            $peso1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+            $peso2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+
+            $soma1 = 0;
+            $soma2 = 0;
+
+            for ($i = 0; $i < 12; $i++) {
+                $soma1 += $numero[$i] * $peso1[$i];
+            }
+
+            $digito1 = ($soma1 % 11) < 2 ? 0 : 11 - ($soma1 % 11);
+
+            for ($i = 0; $i < 13; $i++) {
+                $soma2 += $numero[$i] * $peso2[$i];
+            }
+
+            $digito2 = ($soma2 % 11) < 2 ? 0 : 11 - ($soma2 % 11);
+
+            if ($numero[12] != $digito1 || $numero[13] != $digito2) {
+                throw new Exception("CNPJ inválido: dígito verificador incorreto.");
+            }
+
+            return true;
+
+        } else {
+            throw new Exception("Documento inválido: tamanho incorreto.");
+        }
+    }
+
+    /**
+     * Formata um CPF ou CNPJ automaticamente
+     *
+     * @param string $valor
+     * @return string
+     * @throws Exception
+     */
+    public static function formataDocumento(string $valor): string
+    {
+        $numero = preg_replace('/\D/', '', $valor);
+
+        if (strlen($numero) === 11) {
+            return preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $numero);
+        }
+
+        if (strlen($numero) === 14) {
+            return preg_replace('/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/', '$1.$2.$3/$4-$5', $numero);
+        }
+
+        throw new Exception("Documento inválido para formatação.");
+    }
+
+    /**
+     * Retorna um array contendo o número e a descrição do dia da semana.
+     *
+     * @param int $semana Número do dia da semana (0 a 6), onde 0 é domingo.
+     * @return array Array com as chaves 'numero' e 'descricao'.
+     * @throws Exception Se o número do dia não estiver entre 0 e 6.
+     */
+    public static function semana(int $semana): array
+    {
+        $dias = [
+            self::DOMINGO => ['numero' => self::DOMINGO, 'descricao' => 'Domingo'],
+            self::SEGUNDA => ['numero' => self::SEGUNDA, 'descricao' => 'Segunda-feira'],
+            self::TERCA   => ['numero' => self::TERCA, 'descricao' => 'Terça-feira'],
+            self::QUARTA  => ['numero' => self::QUARTA, 'descricao' => 'Quarta-feira'],
+            self::QUINTA  => ['numero' => self::QUINTA, 'descricao' => 'Quinta-feira'],
+            self::SEXTA   => ['numero' => self::SEXTA, 'descricao' => 'Sexta-feira'],
+            self::SABADO  => ['numero' => self::SABADO, 'descricao' => 'Sábado'],
+        ];
+
+        if (!array_key_exists($semana, $dias)) {
+            throw new Exception("Dia da semana inválido! Deve ser um número entre 0 e 6.");
+        }
+
+        return $dias[$semana];
+    }
+}

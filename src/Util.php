@@ -119,12 +119,16 @@ if(!function_exists('_mask'))
 {
     function _mask($mask, $str)
 	{
+		if (empty($str)) {
+			return $str;
+		}
 
 		$str = str_replace(" ", "", $str);
 
 		for ($i = 0; $i < strlen($str); $i++) {
 			$mask[strpos($mask, "#")] = $str[$i];
 		}
+
 		return $mask;
 	}
 }

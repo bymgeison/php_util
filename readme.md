@@ -27,7 +27,6 @@ O uso do PHP Útil nos projetos da Golfran garante que todos os sistemas compart
 - Gustavo Modena – Desenvolvedor
 - Gabriel Mânica – Desenvolvedor
 - Geison Carlos Shida – Analista
-- ...
 
 ---
 
@@ -42,6 +41,8 @@ gx4/                                        # Espelho da estrutura de um projeto
 ├── include/                                # Templates HTML
 ├── widget/                                 # Bibliotecas auxiliares
 ├── docs/                                   # Documentação do Projeto
+│   ├── classes/                            # Classes e seus métodos
+│   │   ├── TGx4.md                         # Atualização das funções úteis
 │   ├── exemplos/                           # Exemplos de código, como o `default_values`
 │   │   ├── exemplo-default-values.md       # Exemplo de uso do `default_values()`
 │   │   └── exemplo-outro.md                # Outro exemplo de código
@@ -65,6 +66,7 @@ gx4/                                        # Espelho da estrutura de um projeto
 
 ## 📚 Conteúdo da Documentação
 
+- [Classes](gx4/docs/classes/)
 - [Exemplos](gx4/docs/exemplos/)
 - [Configuração do Banco de Dados](gx4/docs/configuracoes/)
 - [Boas Práticas](gx4/docs/boas-praticas/)
