@@ -65,11 +65,11 @@ gx4/                                        # Espelho da estrutura de um projeto
 
 ## 📚 Conteúdo da Documentação
 
-- [Exemplo: Usando `default_values()` em TRecord](gx4/docs/exemplos/exemplo-default-values.md)
-- [Configuração do Banco de Dados](gx4/docs/configuracoes/configuracao-banco.md)
-- [Boas Práticas de CRUD](gx4/docs/boas-praticas/boas-praticas-crud.md)
-- [Tutorial de Instalação](gx4/docs/tutoriais/tutorial-installacao.md)
-- [Referências sobre Adianti Framework](gx4/docs/referencias/referencia-adiante-framework.md)
+- [Exemplo: Usando `default_values()` em TRecord](gx4/docs/exemplos/)
+- [Configuração do Banco de Dados](gx4/docs/configuracoes/)
+- [Boas Práticas](gx4/docs/boas-praticas/)
+- [Tutorial de Instalação](gx4/docs/tutoriais/)
+- [Referências sobre Adianti Framework](gx4/docs/referencias/)
 
 ---
 
