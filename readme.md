@@ -41,6 +41,8 @@ gx4/                                        # Espelho da estrutura de um projeto
 ├── include/                                # Templates HTML
 ├── widget/                                 # Bibliotecas auxiliares
 ├── docs/                                   # Documentação do Projeto
+│   ├── classes/                            # Classe
+│   │   ├── exemplo-default-values.md       # Exemplo de uso do `default_values()`
 │   ├── exemplos/                           # Exemplos de código, como o `default_values`
 │   │   ├── exemplo-default-values.md       # Exemplo de uso do `default_values()`
 │   │   └── exemplo-outro.md                # Outro exemplo de código
