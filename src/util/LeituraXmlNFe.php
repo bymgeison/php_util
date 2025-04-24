@@ -15,7 +15,6 @@ class LeituraXmlNFe
     {
         echo "<pre>";
         print_r($var);
-        //var_dump($var);
         echo "</pre>";
     }
     public function tratadt($var)

@@ -115,27 +115,9 @@ Normaliza uma string, removendo acentos e símbolos especiais, e ajusta a caixa 
 
 ### Exemplos
 ```php
-TGx4::normalizaTexto('João da Silva');            // "JOAO DA SILVA"
+TGx4::normalizaTexto('João da Silva');              // "JOAO DA SILVA"
 TGx4::normalizaTexto('R$ 25,00 #promoção!', false); // "r 2500 promocao"
-TGx4::normalizaTexto('ÇÃO!');                     // "CAO"
-```
-
-## 🔠 `TGx4::normalizaTexto(string $valor, bool $maiusculas = true): string`
-
-Normaliza uma string, removendo acentos e símbolos especiais, e ajusta a caixa (maiúscula ou minúscula).
-
-### Parâmetros
-- `string $valor`: Texto a ser normalizado.
-- `bool $maiusculas`: (opcional) Se `true`, retorna o texto em caixa alta (padrão). Se `false`, retorna em caixa baixa.
-
-### Retorno
-- `string`: Texto limpo, padronizado e ajustado conforme a caixa escolhida.
-
-### Exemplos
-```php
-TGx4::normalizaTexto('João da Silva');            // "JOAO DA SILVA"
-TGx4::normalizaTexto('R$ 25,00 #promoção!', false); // "r 2500 promocao"
-TGx4::normalizaTexto('ÇÃO!');                     // "CAO"
+TGx4::normalizaTexto('ÇÃO!');                       // "CAO"
 ```
 
 ## 🧩 `TGx4::applyMask(string $mask, string $value): string`
@@ -151,7 +133,95 @@ Aplica uma máscara ao valor informado, utilizando o caractere `#` como marcador
 
 ### Exemplos
 ```php
-TGx4::applyMask('###.###.###-##', '39053344705');      // "390.533.447-05"
-TGx4::applyMask('##.###-###', '1234567');              // "12.345-67"
-TGx4::applyMask('(##) #####-####', '51987654321');     // "(51) 98765-4321"
+TGx4::applyMask('###.###.###-##', '39053344705');  // "390.533.447-05"
+TGx4::applyMask('##.###-###', '1234567');          // "12.345-67"
+TGx4::applyMask('(##) #####-####', '51987654321'); // "(51) 98765-4321"
+```
+
+## 🔐 `TGx4::generatePassword(int $length): string`
+
+Gera uma senha aleatória contendo letras maiúsculas, minúsculas, números e símbolos especiais.
+
+### Parâmetros
+- `int $length`: Tamanho desejado da senha. Deve ser maior que 0.
+
+### Retorno
+- `string`: Senha gerada aleatoriamente com o número de caracteres especificado.
+
+### Exceções
+- Lança `InvalidArgumentException` se o tamanho for menor que 1.
+
+### Exemplos
+```php
+TGx4::generatePassword(8);   // Ex: "kJ8$2bR@"
+TGx4::generatePassword(12);  // Ex: "1aD@eL!7uW#%"
+```
+
+## 🧽 `TGx4::removeMask(string $value): string`
+
+Remove todos os caracteres não alfanuméricos de uma string, útil para limpar dados como CPF, CNPJ, telefones e códigos.
+
+### Parâmetros
+- `string $value`: Valor de entrada com possíveis máscaras ou símbolos.
+
+### Retorno
+- `string`: String contendo apenas letras e números, sem espaços ou caracteres especiais.
+
+### Exemplos
+```php
+TGx4::removeMask('123.456.789-00');     // "12345678900"
+TGx4::removeMask('(51) 99999-0000');    // "51999990000"
+TGx4::removeMask('AB#123-CD!');         // "AB123CD"
+```
+
+## 🔠 `TGx4::mbStrPad(string $str, int $len, string $pad, int $align = STR_PAD_RIGHT): string`
+
+Preenche uma string multibyte até o tamanho desejado, respeitando o alinhamento. Alternativa ao `str_pad` para strings com acentuação ou caracteres multibyte.
+
+### Parâmetros
+- `string $str`: String original a ser preenchida.
+- `int $len`: Tamanho total desejado após o preenchimento.
+- `string $pad`: Caracter(es) usado(s) para preencher.
+- `int $align`: Tipo de alinhamento. Pode ser:
+  - `STR_PAD_RIGHT` (padrão)
+  - `STR_PAD_LEFT`
+  - `STR_PAD_BOTH`
+
+### Retorno
+- `string`: String resultante com o comprimento desejado.
+
+### Exemplos
+```php
+TGx4::mbStrPad('Olá', 10, '-');                  // "Olá-------"
+TGx4::mbStrPad('Olá', 10, '-', STR_PAD_LEFT);    // "-------Olá"
+TGx4::mbStrPad('Olá', 10, '-', STR_PAD_BOTH);    // "---Olá----"
+TGx4::mbStrPad('çã', 5, '*');                    // "çã***"
+```
+
+## 📝 `TGx4::saveIniFile(array $data, string $file, bool $hasSections = false): bool`
+
+Grava um array associativo em um arquivo `.ini` de forma organizada, com ou sem seções.
+
+### Parâmetros
+- `array $data`: Dados a serem gravados no formato INI.
+- `string $file`: Caminho do arquivo a ser gerado.
+- `bool $hasSections`: Define se o array possui seções. Se `true`, usa chaves de primeiro nível como nomes de seções.
+
+### Retorno
+- `bool`: Retorna `true` em caso de sucesso, `false` em caso de erro.
+
+### Exemplo
+```php
+$data = [
+    'app' => [
+        'debug' => 'true',
+        'version' => '1.0.0'
+    ],
+    'database' => [
+        'host' => 'localhost',
+        'port' => 3306
+    ]
+];
+
+TGx4::saveIniFile($data, '/caminho/config.ini', true);
 ```

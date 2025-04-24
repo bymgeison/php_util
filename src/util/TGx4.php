@@ -210,4 +210,120 @@ class TGx4
 
         return $result;
     }
+
+    /**
+     * Gera uma senha aleatória com os caracteres definidos.
+     *
+     * @param int $length Tamanho desejado da senha.
+     * @return string Senha gerada aleatoriamente.
+     * @throws InvalidArgumentException Se o tamanho for menor que 1.
+     */
+    public static function generatePassword(int $length): string
+    {
+        if ($length < 1) {
+            throw new InvalidArgumentException("O tamanho da senha deve ser maior que 0.");
+        }
+
+        $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$!@&*$(){}';
+        $characters = str_split($keyspace);
+        shuffle($characters);
+        return substr(implode('', $characters), 0, $length);
+    }
+
+    /**
+     * Remove qualquer máscara de um valor, deixando apenas letras e números.
+     *
+     * @param string $value Valor com máscara.
+     * @return string Valor limpo, sem símbolos ou espaços.
+     */
+    public static function removeMask(string $value): string
+    {
+        return preg_replace('/[^a-z\d]+/i', '', $value);
+    }
+
+    /**
+     * Preenche uma string multibyte até o tamanho desejado, respeitando o alinhamento.
+     *
+     * @param string $str String a ser preenchida.
+     * @param int $len Comprimento final desejado.
+     * @param string $pad Caracter(es) de preenchimento.
+     * @param int $align Tipo de alinhamento (STR_PAD_LEFT, STR_PAD_RIGHT, STR_PAD_BOTH).
+     * @return string String formatada com preenchimento.
+     */
+    public static function mbStrPad(string $str, int $len, string $pad, int $align = STR_PAD_RIGHT): string
+    {
+        $strLen = mb_strlen($str);
+        if ($strLen >= $len) {
+            return $str;
+        }
+
+        $diff = $len - $strLen;
+        $padding = mb_substr(str_repeat($pad, $diff), 0, $diff);
+
+        switch ($align) {
+            case STR_PAD_BOTH:
+                $diffHalf = (int)($diff / 2 + 0.5);
+                $leftPad = mb_substr(str_repeat($pad, $diffHalf), 0, $diffHalf);
+                $rightPad = mb_substr(str_repeat($pad, $diff - $diffHalf), 0, $diff - $diffHalf);
+                return $leftPad . $str . $rightPad;
+
+            case STR_PAD_LEFT:
+                return $padding . $str;
+
+            case STR_PAD_RIGHT:
+            default:
+                return $str . $padding;
+        }
+    }
+
+      /**
+     * Grava um array associativo em um arquivo .ini.
+     *
+     * @param array $data Array associativo a ser salvo.
+     * @param string $file Caminho completo do arquivo a ser salvo.
+     * @param bool $hasSections Define se o array possui seções.
+     * @return bool Retorna true em caso de sucesso, false caso contrário.
+     */
+    public static function saveIniFile(array $data, string $file, bool $hasSections = false): bool
+    {
+        $content = '';
+
+        if ($hasSections) {
+            foreach ($data as $section => $values) {
+                $content .= "[{$section}]\n";
+                foreach ($values as $key => $value) {
+                    $content .= self::formatIniValue($key, $value);
+                }
+            }
+        } else {
+            foreach ($data as $key => $value) {
+                $content .= self::formatIniValue($key, $value);
+            }
+        }
+
+        return file_put_contents($file, $content) !== false;
+    }
+
+    /**
+     * Formata um valor para o conteúdo do arquivo INI.
+     *
+     * @param string $key Chave do parâmetro.
+     * @param mixed $value Valor associado.
+     * @return string Linha formatada.
+     */
+    private static function formatIniValue(string $key, $value): string
+    {
+        $output = '';
+        if (is_array($value)) {
+            foreach ($value as $v) {
+                $output .= "{$key}[] = \"" . addslashes($v) . "\"\n";
+            }
+        } elseif ($value === '') {
+            $output .= "{$key} = \n";
+        } else {
+            $output .= "{$key} = \"" . addslashes($value) . "\"\n";
+        }
+
+        return $output;
+    }
 }
