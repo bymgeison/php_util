@@ -1,5 +1,8 @@
+# Classe `TSweet`
 
-# TSweet (GX4\Util)
+**Namespace:** `GX4\Util`
+
+## Descrição
 
 A classe `TSweet` encapsula interações visuais com a biblioteca SweetAlert2 dentro do Adianti Framework. Fornece métodos prontos para exibir mensagens, confirmações e notificações tipo toast, tornando o código mais limpo e reutilizável.
 
