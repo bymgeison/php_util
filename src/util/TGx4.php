@@ -31,73 +31,193 @@ class TGx4
     }
 
     /**
-     * Valida um CPF ou CNPJ
+     * Valida documentos como CPF, CNPJ, RG, Título de Eleitor, NIS/PIS/PASEP, CNH e Passaporte.
      *
-     * @param string $valor
-     * @return bool
-     * @throws Exception
+     * Este método realiza a validação de diferentes tipos de documentos, incluindo CPF, CNPJ, RG,
+     * Título de Eleitor, NIS/PIS/PASEP, CNH e Passaporte. Dependendo do tipo de documento informado,
+     * ele verifica a estrutura e os dígitos verificadores para garantir a validade do número.
+     * Caso o número do documento seja inválido, uma exceção será lançada com a razão do erro.
+     *
+     * @param string $valor O número do documento a ser validado (pode ser CPF, CNPJ, RG, Título de Eleitor, NIS/PIS/PASEP, CNH ou Passaporte).
+     * @param string $tipoDocumento O tipo do documento a ser validado (por exemplo, 'CPF', 'CNPJ', 'RG', etc.).
+     * @return array Retorna um array com as chaves 'valido' (booleano indicando a validade) e 'tipo' (tipo do documento: 'CPF', 'CNPJ', 'RG', etc.).
+     * @throws Exception Lança uma exceção caso o documento seja inválido, com uma mensagem explicando o motivo.
      */
-    public static function validaDocumento(string $valor): bool
+    public static function validaDocumento(string $valor, $tipoDocumento): array
     {
-        // Remove tudo que não for número
-        $numero = preg_replace('/\D/', '', $valor);
+        // Remove tudo que não for número ou letra
+        $numero = preg_replace('/[^a-zA-Z0-9]/', '', $valor);
 
-        // Verifica se é CPF (11 dígitos)
-        if (strlen($numero) === 11) {
-            if (preg_match('/^(\d)\1{10}$/', $numero)) {
-                throw new Exception("CPF inválido: repetição de dígitos.");
-            }
+        // Validações de documentos (CPF, CNPJ, RG, Título de Eleitor, NIS/PIS/PASEP, CNH, Passaporte)
+        // A função valida o número do documento e o tipo informado, retornando se o documento é válido ou inválido.
 
-            for ($t = 9; $t < 11; $t++) {
-                $soma = 0;
-                for ($i = 0; $i < $t; $i++) {
-                    $soma += $numero[$i] * (($t + 1) - $i);
+        // CPF | CNPJ
+        if ($tipoDocumento === 'CPF' OR $tipoDocumento === 'CPF') {
+            // CPF
+            if (strlen($numero) === 11) {
+                // Verifica se o CPF não é composto apenas por números repetidos
+                if (preg_match('/^(\d)\1{10}$/', $numero)) {
+                    throw new Exception("CPF inválido: repetição de dígitos.");
                 }
 
-                $digitoEsperado = ($soma * 10) % 11;
-                $digitoEsperado = ($digitoEsperado === 10) ? 0 : $digitoEsperado;
+                // Validação dos dígitos verificadores do CPF
+                for ($t = 9; $t < 11; $t++) {
+                    $soma = 0;
+                    for ($i = 0; $i < $t; $i++) {
+                        $soma += $numero[$i] * (($t + 1) - $i);
+                    }
 
-                if ($numero[$t] != $digitoEsperado) {
-                    throw new Exception("CPF inválido: dígito verificador incorreto.");
+                    $digitoEsperado = ($soma * 10) % 11;
+                    $digitoEsperado = ($digitoEsperado === 10) ? 0 : $digitoEsperado;
+
+                    // Se os dígitos verificadores não forem válidos
+                    if ($numero[$t] != $digitoEsperado) {
+                        throw new Exception("CPF inválido: dígito verificador incorreto.");
+                    }
                 }
+
+                return ['valido' => true, 'tipo' => 'CPF'];
+
+            // CNPJ
+            } elseif (strlen($numero) === 14) {
+                // Verifica se o CNPJ não é composto apenas por números repetidos
+                if (preg_match('/^(\d)\1{13}$/', $numero)) {
+                    throw new Exception("CNPJ inválido: repetição de dígitos.");
+                }
+
+                // Validação dos dígitos verificadores do CNPJ
+                $peso1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+                $peso2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+
+                $soma1 = 0;
+                $soma2 = 0;
+
+                for ($i = 0; $i < 12; $i++) {
+                    $soma1 += $numero[$i] * $peso1[$i];
+                }
+
+                $digito1 = ($soma1 % 11) < 2 ? 0 : 11 - ($soma1 % 11);
+
+                for ($i = 0; $i < 13; $i++) {
+                    $soma2 += $numero[$i] * $peso2[$i];
+                }
+
+                $digito2 = ($soma2 % 11) < 2 ? 0 : 11 - ($soma2 % 11);
+
+                // Se os dígitos verificadores não forem válidos
+                if ($numero[12] != $digito1 || $numero[13] != $digito2) {
+                    throw new Exception("CNPJ inválido: dígito verificador incorreto.");
+                }
+
+                return ['valido' => true, 'tipo' => 'CNPJ'];
             }
-
-            return true;
-
-        } elseif (strlen($numero) === 14) { // CNPJ
-
-            if (preg_match('/^(\d)\1{13}$/', $numero)) {
-                throw new Exception("CNPJ inválido: repetição de dígitos.");
-            }
-
-            $peso1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
-            $peso2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
-
-            $soma1 = 0;
-            $soma2 = 0;
-
-            for ($i = 0; $i < 12; $i++) {
-                $soma1 += $numero[$i] * $peso1[$i];
-            }
-
-            $digito1 = ($soma1 % 11) < 2 ? 0 : 11 - ($soma1 % 11);
-
-            for ($i = 0; $i < 13; $i++) {
-                $soma2 += $numero[$i] * $peso2[$i];
-            }
-
-            $digito2 = ($soma2 % 11) < 2 ? 0 : 11 - ($soma2 % 11);
-
-            if ($numero[12] != $digito1 || $numero[13] != $digito2) {
-                throw new Exception("CNPJ inválido: dígito verificador incorreto.");
-            }
-
-            return true;
-
-        } else {
-            throw new Exception("Documento inválido: tamanho incorreto.");
         }
+
+        // RG
+        if ($tipoDocumento === 'RG') {
+            // Verifica se o RG tem entre 7 e 9 caracteres e é composto apenas por números
+            if (strlen($numero) >= 7 && strlen($numero) <= 9) {
+                if (!preg_match('/^\d+$/', $numero)) {
+                    throw new Exception("RG inválido: deve conter apenas números.");
+                }
+
+                return ['valido' => true, 'tipo' => 'RG'];
+            }
+        }
+
+        // Título de Eleitor
+        if ($tipoDocumento === 'TITULO_ELEITOR') {
+            // Verifica se o Título de Eleitor tem 12 dígitos e é composto apenas por números
+            if (strlen($numero) === 12) {
+                if (!preg_match('/^\d+$/', $numero)) {
+                    throw new Exception("Título de Eleitor inválido: deve conter apenas números.");
+                }
+
+                // Valida o dígito verificador do Título de Eleitor
+                $peso = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+                $soma = 0;
+
+                for ($i = 0; $i < 11; $i++) {
+                    $soma += $numero[$i] * $peso[$i];
+                }
+
+                $digitoVerificador = $soma % 11;
+                $digitoEsperado = $digitoVerificador === 0 ? 0 : 11 - $digitoVerificador;
+
+                // Verifica se o dígito verificador está correto
+                if ($numero[11] != $digitoEsperado) {
+                    throw new Exception("Título de Eleitor inválido: dígito verificador incorreto.");
+                }
+
+                return ['valido' => true, 'tipo' => 'Título de Eleitor'];
+            }
+        }
+
+        // NIS/PIS/PASEP
+        if ($tipoDocumento === 'NIS_PIS_PASEP') {
+            // Valida o número de dígitos e a estrutura do NIS/PIS/PASEP
+            if (strlen($numero) === 11) {
+                if (!preg_match('/^\d+$/', $numero)) {
+                    throw new Exception("NIS/PIS/PASEP inválido: deve conter apenas números.");
+                }
+
+                // Validação dos dígitos verificadores
+                $peso = [3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+                $soma = 0;
+
+                for ($i = 0; $i < 10; $i++) {
+                    $soma += $numero[$i] * $peso[$i];
+                }
+
+                $digitoVerificador = $soma % 11;
+                $digitoEsperado = $digitoVerificador === 0 ? 0 : 11 - $digitoVerificador;
+
+                if ($numero[10] != $digitoEsperado) {
+                    throw new Exception("NIS/PIS/PASEP inválido: dígito verificador incorreto.");
+                }
+
+                return ['valido' => true, 'tipo' => 'NIS/PIS/PASEP'];
+            }
+        }
+
+        // CNH
+        if ($tipoDocumento === 'CNH') {
+            // Valida a CNH com 11 dígitos e verifica o dígito verificador
+            if (strlen($numero) === 11) {
+                if (!preg_match('/^\d+$/', $numero)) {
+                    throw new Exception("CNH inválido: deve conter apenas números.");
+                }
+
+                $peso = [9, 8, 7, 6, 5, 4, 3, 2, 1];
+                $soma = 0;
+
+                for ($i = 0; $i < 9; $i++) {
+                    $soma += $numero[$i] * $peso[$i];
+                }
+
+                $digitoVerificador = $soma % 11;
+                $digitoEsperado = $digitoVerificador === 0 ? 0 : 11 - $digitoVerificador;
+
+                if ($numero[10] != $digitoEsperado) {
+                    throw new Exception("CNH inválido: dígito verificador incorreto.");
+                }
+
+                return ['valido' => true, 'tipo' => 'CNH'];
+            }
+        }
+
+        // Passaporte
+        if ($tipoDocumento === 'PASSAPORTE') {
+            // Verifica se o passaporte tem 9 caracteres (3 letras + 6 números)
+            if (strlen($numero) === 9 && preg_match('/^[A-Za-z]{3}\d{6}$/', $numero)) {
+                return ['valido' => true, 'tipo' => 'Passaporte'];
+            }
+        }
+
+        // Caso nenhum documento seja válido
+        throw new Exception("Documento inválido: tipo ou formato incorreto.");
     }
+
 
     /**
      * Formata um CPF ou CNPJ automaticamente
@@ -209,5 +329,121 @@ class TGx4
         }
 
         return $result;
+    }
+
+    /**
+     * Gera uma senha aleatória com os caracteres definidos.
+     *
+     * @param int $length Tamanho desejado da senha.
+     * @return string Senha gerada aleatoriamente.
+     * @throws InvalidArgumentException Se o tamanho for menor que 1.
+     */
+    public static function generatePassword(int $length): string
+    {
+        if ($length < 1) {
+            throw new InvalidArgumentException("O tamanho da senha deve ser maior que 0.");
+        }
+
+        $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$!@&*$(){}';
+        $characters = str_split($keyspace);
+        shuffle($characters);
+        return substr(implode('', $characters), 0, $length);
+    }
+
+    /**
+     * Remove qualquer máscara de um valor, deixando apenas letras e números.
+     *
+     * @param string $value Valor com máscara.
+     * @return string Valor limpo, sem símbolos ou espaços.
+     */
+    public static function removeMask(string $value): string
+    {
+        return preg_replace('/[^a-z\d]+/i', '', $value);
+    }
+
+    /**
+     * Preenche uma string multibyte até o tamanho desejado, respeitando o alinhamento.
+     *
+     * @param string $str String a ser preenchida.
+     * @param int $len Comprimento final desejado.
+     * @param string $pad Caracter(es) de preenchimento.
+     * @param int $align Tipo de alinhamento (STR_PAD_LEFT, STR_PAD_RIGHT, STR_PAD_BOTH).
+     * @return string String formatada com preenchimento.
+     */
+    public static function mbStrPad(string $str, int $len, string $pad, int $align = STR_PAD_RIGHT): string
+    {
+        $strLen = mb_strlen($str);
+        if ($strLen >= $len) {
+            return $str;
+        }
+
+        $diff = $len - $strLen;
+        $padding = mb_substr(str_repeat($pad, $diff), 0, $diff);
+
+        switch ($align) {
+            case STR_PAD_BOTH:
+                $diffHalf = (int)($diff / 2 + 0.5);
+                $leftPad = mb_substr(str_repeat($pad, $diffHalf), 0, $diffHalf);
+                $rightPad = mb_substr(str_repeat($pad, $diff - $diffHalf), 0, $diff - $diffHalf);
+                return $leftPad . $str . $rightPad;
+
+            case STR_PAD_LEFT:
+                return $padding . $str;
+
+            case STR_PAD_RIGHT:
+            default:
+                return $str . $padding;
+        }
+    }
+
+      /**
+     * Grava um array associativo em um arquivo .ini.
+     *
+     * @param array $data Array associativo a ser salvo.
+     * @param string $file Caminho completo do arquivo a ser salvo.
+     * @param bool $hasSections Define se o array possui seções.
+     * @return bool Retorna true em caso de sucesso, false caso contrário.
+     */
+    public static function saveIniFile(array $data, string $file, bool $hasSections = false): bool
+    {
+        $content = '';
+
+        if ($hasSections) {
+            foreach ($data as $section => $values) {
+                $content .= "[{$section}]\n";
+                foreach ($values as $key => $value) {
+                    $content .= self::formatIniValue($key, $value);
+                }
+            }
+        } else {
+            foreach ($data as $key => $value) {
+                $content .= self::formatIniValue($key, $value);
+            }
+        }
+
+        return file_put_contents($file, $content) !== false;
+    }
+
+    /**
+     * Formata um valor para o conteúdo do arquivo INI.
+     *
+     * @param string $key Chave do parâmetro.
+     * @param mixed $value Valor associado.
+     * @return string Linha formatada.
+     */
+    private static function formatIniValue(string $key, $value): string
+    {
+        $output = '';
+        if (is_array($value)) {
+            foreach ($value as $v) {
+                $output .= "{$key}[] = \"" . addslashes($v) . "\"\n";
+            }
+        } elseif ($value === '') {
+            $output .= "{$key} = \n";
+        } else {
+            $output .= "{$key} = \"" . addslashes($value) . "\"\n";
+        }
+
+        return $output;
     }
 }
