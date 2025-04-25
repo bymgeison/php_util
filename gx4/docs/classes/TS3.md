@@ -1,3 +1,9 @@
+# Classe `TS3`
+
+**Namespace:** `GX4\Util`
+
+## Descrição
+
 ## ☁️ `TS3::__construct(string $awsKey, string $awsSecretKey, string $endpoint = ..., bool $pathStyle = true, string $region = 'us-east-1')`
 
 Inicializa a instância do cliente S3 com as credenciais e configurações especificadas.

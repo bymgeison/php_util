@@ -1,4 +1,8 @@
-# 📚 TGx4 – Funções Úteis
+# Classe `TGx4`
+
+**Namespace:** `GX4\Util`
+
+## Descrição
 
 A classe `TGx4` fornece métodos úteis conforme documentação a seguir.
 
@@ -250,4 +254,54 @@ $data = [
 ];
 
 TGx4::saveIniFile($data, '/caminho/config.ini', true);
+
+```
+
+## 🧪 `TGx4::isAValidEAN13(string $ean): bool`
+
+Valida se um código EAN-13 é válido com base no cálculo do dígito verificador.
+
+### Parâmetros
+- `string $ean`: Código EAN-13 a ser validado.
+
+### Retorno
+- `bool`: `true` se o código for válido, `false` caso contrário.
+
+### Exemplo
+```php
+$isValid = TGx4::isAValidEAN13('7891234567895');
+```
+
+---
+
+## 🧮 `TGx4::has13Numbers(array $ean): bool`
+
+Verifica se o array contém exatamente 13 dígitos, conforme exigido pelo padrão EAN-13.
+
+### Parâmetros
+- `array $ean`: Array contendo os dígitos do EAN.
+
+### Retorno
+- `bool`: `true` se o array tiver 13 números, `false` caso contrário.
+
+### Exemplo
+```php
+$tem13 = TGx4::has13Numbers([7,8,9,1,2,3,4,5,6,7,8,9,5]);
+```
+
+---
+
+## 📦 `TGx4::isValidBarcode(string $barcode): bool`
+
+Valida códigos de barras compatíveis com os padrões GTIN-8, GTIN-12, GTIN-13, GTIN-14, GSIN e SSCC.
+
+### Parâmetros
+- `string $barcode`: Código de barras numérico a ser validado.
+
+### Retorno
+- `bool`: `true` se o código for válido de acordo com o dígito verificador, `false` caso contrário.
+
+### Exemplo
+```php
+$isValid = TGx4::isValidBarcode('1234567890128');
 ```

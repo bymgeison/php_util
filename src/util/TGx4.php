@@ -3,6 +3,7 @@
 namespace TGX4\Util;
 
 use Exception;
+use InvalidArgumentException;
 
 class TGx4
 {
@@ -445,5 +446,95 @@ class TGx4
         }
 
         return $output;
+    }
+
+    /**
+     * Verifica se um código EAN-13 é válido.
+     *
+     * @param string $ean Código EAN-13 a ser validado.
+     * @return bool Retorna true se o código for válido, false caso contrário.
+     */
+    public function isAValidEAN13($ean)
+    {
+        echo $ean; // Provavelmente para depuração — pode ser removido em produção.
+        $sumEvenIndexes = 0;
+        $sumOddIndexes  = 0;
+
+        $eanAsArray = array_map('intval', str_split($ean));
+
+        if (!$this->has13Numbers($eanAsArray)) {
+            return false;
+        }
+
+        for ($i = 0; $i < count($eanAsArray) - 1; $i++) {
+            if ($i % 2 === 0) {
+                $sumOddIndexes  += $eanAsArray[$i];
+            } else {
+                $sumEvenIndexes += $eanAsArray[$i];
+            }
+        }
+
+        $rest = ($sumOddIndexes + (3 * $sumEvenIndexes)) % 10;
+
+        if ($rest !== 0) {
+            $rest = 10 - $rest;
+        }
+
+        return $rest === $eanAsArray[12];
+    }
+
+    /**
+     * Verifica se o array contém exatamente 13 números (para EAN-13).
+     *
+     * @param array $ean Array com os dígitos do EAN.
+     * @return bool Retorna true se tiver 13 números, false caso contrário.
+     */
+    private function has13Numbers(array $ean)
+    {
+        return count($ean) === 13;
+    }
+
+    /**
+     * Valida um código de barras (GTIN-8, GTIN-12, GTIN-13, GTIN-14, GSIN, SSCC).
+     *
+     * @param string|int $barcode Código de barras a ser validado.
+     * @return bool Retorna true se for válido conforme o dígito verificador, false caso contrário.
+     */
+    function isValidBarcode($barcode)
+    {
+        $barcode = (string) $barcode;
+
+        // Aceita apenas dígitos
+        if (!preg_match("/^[0-9]+$/", $barcode)) {
+            return false;
+        }
+
+        // Verifica se o comprimento é um dos padrões aceitos
+        $l = strlen($barcode);
+        if (!in_array($l, [8, 12, 13, 14, 17, 18])) {
+            return false;
+        }
+
+        $check = substr($barcode, -1);           // Último dígito (verificador)
+        $barcode = substr($barcode, 0, -1);       // Remove o dígito verificador
+
+        $sum_even = $sum_odd = 0;
+        $even = true;
+
+        while (strlen($barcode) > 0) {
+            $digit = substr($barcode, -1);
+            if ($even) {
+                $sum_even += 3 * $digit;
+            } else {
+                $sum_odd += $digit;
+            }
+            $even = !$even;
+            $barcode = substr($barcode, 0, -1);
+        }
+
+        $sum = $sum_even + $sum_odd;
+        $sum_rounded_up = ceil($sum / 10) * 10;
+
+        return ($check == ($sum_rounded_up - $sum));
     }
 }

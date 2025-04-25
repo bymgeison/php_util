@@ -16,7 +16,6 @@
         ],
         "psr-4": {
             "GX4\\Util\\": "src/util",
-            "TGX4\\Util\\": "src/util",
             "GX4\\Trait\\": "src/trait",
             "GX4\\Service\\": "src/service",
             "GX4\\Exception\\": "src/exception",
@@ -24,7 +23,12 @@
             "GX4\\Database\\": "gx4/database",
             "GX4\\Widget\\Datagrid\\": "gx4/widget/datagrid",
             "GX4\\Widget\\Form\\": "gx4/widget/form",
-            "GX4\\Widget\\Dialog\\": "gx4/widget/dialog"
+            "GX4\\Widget\\Dialog\\": "gx4/widget/dialog",
+            "TGX4\\Util\\": "src/util/TGx4",
+            "TS3\\Util\\": "src/util/TS3",
+            "TSweet\\Util\\": "src/util/TSweet",
+            "TNfe\\Util\\": "src/util/TNfe",
+            "TJasper\\Util\\": "src/util/TJasper"
         }
     },
     "require": {

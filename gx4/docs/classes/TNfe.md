@@ -1,4 +1,8 @@
-# Classe TNfe
+# Classe `TNfe`
+
+**Namespace:** `GX4\Util`
+
+## Descrição
 
 A classe `TNfe` é responsável por realizar o tratamento de arquivos XML da Nota Fiscal Eletrônica (NFe), validando e extraindo informações como o protocolo de autorização e outros dados específicos. Ela oferece métodos para carregar o XML de diferentes fontes, como arquivos locais, URLs ou diretamente como strings, e também para exibir dados de maneira formatada para debug.
 
@@ -10,7 +14,7 @@ A classe `TNfe` é responsável por realizar o tratamento de arquivos XML da Not
 
 ## Métodos
 
-### `__construct($arquivo, $tipo = 'arquivo')`
+#### `__construct($arquivo, $tipo = 'arquivo')`
 
 Construtor da classe. Inicializa a classe validando o conteúdo informado, que pode ser o caminho de um arquivo XML ou uma string com o conteúdo do XML.
 
@@ -23,7 +27,7 @@ Construtor da classe. Inicializa a classe validando o conteúdo informado, que p
 
 ---
 
-### `debug(...$valores)`
+#### `debug(...$valores)`
 
 Exibe um ou mais valores com `var_dump` formatado em HTML.
 
@@ -35,7 +39,7 @@ Exibe um ou mais valores com `var_dump` formatado em HTML.
 
 ---
 
-### `tratadt($var)`
+#### `tratadt($var)`
 
 Formata a data passada para o formato `Y-m-d H:i:s`.
 
@@ -47,7 +51,7 @@ Formata a data passada para o formato `Y-m-d H:i:s`.
 
 ---
 
-### `validaArquivo($arquivo, $tipo)`
+#### `validaArquivo($arquivo, $tipo)`
 
 Valida e carrega o conteúdo XML da NFe conforme o tipo informado. Aceita como entrada o caminho para um arquivo local, uma URL ou diretamente o conteúdo XML como string.
 
@@ -60,7 +64,7 @@ Valida e carrega o conteúdo XML da NFe conforme o tipo informado. Aceita como e
 
 ---
 
-### `getProtocolo()`
+#### `getProtocolo()`
 
 Retorna as informações do protocolo de autorização da NFe, extraindo do XML os dados como número do protocolo, data/hora da autorização e o código de status da SEFAZ.
 
@@ -72,7 +76,7 @@ Retorna as informações do protocolo de autorização da NFe, extraindo do XML 
 
 ---
 
-### `getIde()`
+#### `getIde()`
 
 Retorna as informações da seção `<ide>` da NFe. Essa seção contém dados de identificação da Nota Fiscal Eletrônica, como número, série, data de emissão, tipo de operação, entre outros.
 
@@ -101,7 +105,7 @@ Retorna as informações da seção `<ide>` da NFe. Essa seção contém dados d
 
 ---
 
-### `getChave()`
+#### `getChave()`
 
 Retorna a chave de acesso da NFe.
 
@@ -113,7 +117,7 @@ A chave de acesso é um identificador único da nota fiscal eletrônica, compost
 
 ---
 
-### `getEmitente()`
+#### `getEmitente()`
 
 Retorna os dados do emitente da NFe.
 
@@ -142,7 +146,7 @@ Extrai e organiza as informações do emitente (empresa ou pessoa que emitiu a n
 
 ---
 
-### `getDestinatario()`
+#### `getDestinatario()`
 
 Retorna os dados do destinatário da NFe.
 
@@ -174,7 +178,7 @@ Este método extrai e organiza as informações do destinatário da nota fiscal,
 
 ---
 
-### `getTotal()`
+#### `getTotal()`
 
 Retorna os totais da nota fiscal.
 
@@ -208,7 +212,7 @@ Este método extrai os valores totais da NFe a partir do grupo `ICMSTot`, inclui
 
 ---
 
-### `getTransporte()`
+#### `getTransporte()`
 
 Retorna os dados de transporte da NFe.
 
@@ -236,7 +240,7 @@ Este método extrai informações do grupo de transporte da nota fiscal, incluin
 
 ---
 
-### `ICMS($var)`
+#### `ICMS($var)`
 
 #### Descrição:
 Processa e formata as informações do ICMS de acordo com o tipo de tributação.
@@ -273,7 +277,7 @@ $icmsData = $this->ICMS($var);
 
 ---
 
-### `IPI($var)`
+#### `IPI($var)`
 
 #### Descrição:
 Esse método processa as informações de IPI (Imposto sobre Produtos Industrializados) a partir de um objeto de entrada e retorna um objeto com as propriedades pertinentes ao IPI.
@@ -294,7 +298,7 @@ Retorna um objeto do tipo `stdClass` com as seguintes propriedades:
 
 ---
 
-### `II($var)`
+#### `II($var)`
 
 Esse método processa as informações de II (Imposto de Importação) a partir de um objeto de entrada e retorna um objeto com as propriedades pertinentes ao II.
 
@@ -328,7 +332,7 @@ print_r($resultado);
 
 ---
 
-### `PIS($var)`
+#### `PIS($var)`
 
 Esse método processa as informações de PIS (Programa de Integração Social) a partir de um objeto de entrada e retorna um objeto com as propriedades pertinentes ao PIS.
 
@@ -381,7 +385,7 @@ print_r($resultado);
 
 ---
 
-### `COFINS($var)`
+#### `COFINS($var)`
 
 Esse método processa as informações de COFINS (Contribuição para o Financiamento da Seguridade Social) a partir de um objeto de entrada e retorna um objeto com as propriedades pertinentes ao COFINS.
 
@@ -434,7 +438,7 @@ print_r($resultado);
 
 ---
 
-### `getProdutos()`
+#### `getProdutos()`
 
 #### Descrição
 O método `getProdutos()` é responsável por extrair e processar os detalhes dos produtos de uma nota fiscal eletrônica (NFe). Ele percorre os itens do XML da NFe e monta um objeto contendo informações sobre cada produto, como código, descrição, NCM, CFOP, valores de tributos (ICMS, IPI, PIS, COFINS, II) e outros dados adicionais de cada item.
@@ -556,7 +560,7 @@ foreach ($produtos as $produto) {
 
 ---
 
-### `getParcelas()`
+#### `getParcelas()`
 
 #### Descrição
 O método `getParcelas()` é responsável por extrair informações sobre as parcelas de pagamento associadas à nota fiscal eletrônica (NFe). Ele recupera os dados do XML da NFe, incluindo o número da fatura, o número da parcela, a data de vencimento e o valor da parcela. Essas informações são retornadas em um objeto, onde cada parcela é representada por um objeto contendo os detalhes mencionados.
@@ -586,7 +590,7 @@ foreach ($parcelas as $parcela) {
 
 ---
 
-### `getObs()`
+#### `getObs()`
 
 #### Descrição
 O método `getObs()` é responsável por extrair informações adicionais de observação da nota fiscal eletrônica (NFe). Ele recupera os dados do XML da NFe relacionados às observações fiscais e complementares. O método verifica se as tags `<infAdFisco>` e `<infCpl>` estão presentes no XML e, se estiverem, retorna os valores desses campos. Se algum campo não estiver presente, o método retorna `NULL` para esse campo.
@@ -610,7 +614,7 @@ echo "Informações Complementares: " . $observacoes->infCpl . "\n";
 
 ---
 
-### `getNotaCab()`
+#### `getNotaCab()`
 
 #### Descrição
 O método `getNotaCab()` é responsável por consolidar e retornar todas as informações principais de uma nota fiscal eletrônica (NFe). Ele coleta dados de várias seções da NFe, incluindo chave de acesso, protocolo, informações do emitente, destinatário, totais, transporte e observações adicionais, combinando todas essas informações em um único objeto. O método utiliza outros métodos da classe, como `getChave()`, `getProtocolo()`, `getIde()`, `getEmitente()`, `getDestinatario()`, `getTotal()`, `getTransporte()` e `getObs()`, para obter os dados necessários.
