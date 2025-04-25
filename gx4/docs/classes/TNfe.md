@@ -222,6 +222,40 @@ Este método extrai informações do grupo de transporte da nota fiscal, incluin
   - **vol_pesoL**: Peso líquido dos volumes
   - **vol_pesoB**: Peso bruto dos volumes
 
+---
+
+### `ICMS()`
+
+#### Descrição:
+Processa e formata as informações do ICMS de acordo com o tipo de tributação.
+
+Este método verifica os diferentes tipos de ICMS presentes no objeto `$var` (ICMS00, ICMS10, ICMS20, ICMS30, ICMS40, ICMS51, ICMS60, ICMS70, ICMS90, ICMSSN101, ICMSSN102, ICMSSN201, ICMSSN202) e extrai as informações relevantes para cada tipo. Em seguida, essas informações são armazenadas em um objeto `stdClass` que é retornado para posterior uso.
+
+#### Parâmetros:
+- **$var** (`object`): Objeto contendo as informações de ICMS a serem processadas. Espera-se que o objeto tenha propriedades específicas como ICMS00, ICMS10, ICMS20, etc.
+
+#### Retorno:
+- Retorna um objeto `stdClass` com os dados processados do ICMS, onde cada tipo de ICMS é tratado de acordo com suas especificidades.
+
+Detalhamento dos Tipos de ICMS:
+             ICMS00           : ICMS normal.
+
+**ICMS10** ICMS com substituição tributária.
+**ICMS20** ICMS com redução de base de cálculo.
+**ICMS30** ICMS por substituição tributária com diferença de alíquota.
+**ICMS40** ICMS com isenção.
+**ICMS51** ICMS com diferimento.
+**ICMS60** ICMS substituição tributária por retenção.
+**ICMS70** ICMS com redução de base de cálculo e substituição tributária.
+**ICMS90** ICMS com redução de base de cálculo.
+**ICMSSN101** ICMS substituição tributária por sistema simplificado.
+**ICMSSN102** ICMS substituição tributária por sistema simplificado com isenção.
+**ICMSSN201** ICMS substituição tributária por sistema simplificado com redução de base.
+**ICMSSN202** ICMS substituição tributária por sistema simplificado com isenção e redução de base.
+
+#### Exemplo de Uso:
+```php
+$icmsData = $this->ICMS($var);
 
 ## Exemplo de Uso
 
