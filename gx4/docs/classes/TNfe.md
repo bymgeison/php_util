@@ -238,24 +238,24 @@ Este método verifica os diferentes tipos de ICMS presentes no objeto `$var` (IC
 - Retorna um objeto `stdClass` com os dados processados do ICMS, onde cada tipo de ICMS é tratado de acordo com suas especificidades.
 
 Detalhamento dos Tipos de ICMS:
-             ICMS00           : ICMS normal.
-
-**ICMS10** ICMS com substituição tributária.
-**ICMS20** ICMS com redução de base de cálculo.
-**ICMS30** ICMS por substituição tributária com diferença de alíquota.
-**ICMS40** ICMS com isenção.
-**ICMS51** ICMS com diferimento.
-**ICMS60** ICMS substituição tributária por retenção.
-**ICMS70** ICMS com redução de base de cálculo e substituição tributária.
-**ICMS90** ICMS com redução de base de cálculo.
-**ICMSSN101** ICMS substituição tributária por sistema simplificado.
-**ICMSSN102** ICMS substituição tributária por sistema simplificado com isenção.
-**ICMSSN201** ICMS substituição tributária por sistema simplificado com redução de base.
-**ICMSSN202** ICMS substituição tributária por sistema simplificado com isenção e redução de base.
+- **ICMS00** ICMS normal.
+- **ICMS10** ICMS com substituição tributária.
+- **ICMS20** ICMS com redução de base de cálculo.
+- **ICMS30** ICMS por substituição tributária com diferença de alíquota.
+- **ICMS40** ICMS com isenção.
+- **ICMS51** ICMS com diferimento.
+- **ICMS60** ICMS substituição tributária por retenção.
+- **ICMS70** ICMS com redução de base de cálculo e substituição tributária.
+- **ICMS90** ICMS com redução de base de cálculo.
+- **ICMSSN101** ICMS substituição tributária por sistema simplificado.
+- **ICMSSN102** ICMS substituição tributária por sistema simplificado com isenção.
+- **ICMSSN201** ICMS substituição tributária por sistema simplificado com redução de base.
+- **ICMSSN202** ICMS substituição tributária por sistema simplificado com isenção e redução de base.
 
 #### Exemplo de Uso:
 ```php
 $icmsData = $this->ICMS($var);
+
 
 ## Exemplo de Uso
 
