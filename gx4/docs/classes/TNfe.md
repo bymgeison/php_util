@@ -326,6 +326,8 @@ print_r($resultado);
 
 ```
 
+---
+
 ### `PIS($var)`
 
 Esse método processa as informações de PIS (Programa de Integração Social) a partir de um objeto de entrada e retorna um objeto com as propriedades pertinentes ao PIS.
@@ -377,6 +379,8 @@ print_r($resultado);
 
 ```
 
+---
+
 ### `COFINS($var)`
 
 Esse método processa as informações de COFINS (Contribuição para o Financiamento da Seguridade Social) a partir de um objeto de entrada e retorna um objeto com as propriedades pertinentes ao COFINS.
@@ -427,6 +431,8 @@ $resultado = $cofins->COFINS($var);
 print_r($resultado);
 
 ```
+
+---
 
 ### `getProdutos()`
 
@@ -548,6 +554,8 @@ foreach ($produtos as $produto) {
 
 ```
 
+---
+
 ### `getParcelas()`
 
 #### Descrição
@@ -576,6 +584,8 @@ foreach ($parcelas as $parcela) {
 
 ```
 
+---
+
 ### `getObs()`
 
 #### Descrição
@@ -597,6 +607,8 @@ echo "Informações Adicionais Fiscais: " . $observacoes->infAdFisco . "\n";
 echo "Informações Complementares: " . $observacoes->infCpl . "\n";
 
 ```
+
+---
 
 ### `getNotaCab()`
 
