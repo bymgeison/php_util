@@ -292,30 +292,338 @@ Retorna um objeto do tipo `stdClass` com as seguintes propriedades:
 - **pIPI**: Percentual do IPI, presente se existir em `IPITrib`.
 - **vIPI**: Valor do IPI, presente se existir em `IPITrib`.
 
-## Exemplo de Uso
+---
+
+### `II($var)`
+
+Esse método processa as informações de II (Imposto de Importação) a partir de um objeto de entrada e retorna um objeto com as propriedades pertinentes ao II.
+
+#### Parâmetros
+- **$var**: Um objeto contendo a estrutura de dados do II.
+
+#### Retorno
+Retorna um objeto do tipo `stdClass` com as seguintes propriedades:
+
+- **vBC**: Valor da base de cálculo do II, presente se existir no objeto de entrada.
+- **vDespAdu**: Valor das despesas aduaneiras, presente se existir no objeto de entrada.
+- **vII**: Valor do Imposto de Importação, presente se existir no objeto de entrada.
+- **vIOF**: Valor do IOF (Imposto sobre Operações Financeiras) relacionado ao II, presente se existir no objeto de entrada.
+
+#### Exemplo de Uso
 
 ```php
-use GX4\Util\TNfe;
+$var = new stdClass();
+// Exemplo de estrutura de dados de II
+$var->II = new stdClass();
+$var->II->vBC = '1000';
+$var->II->vDespAdu = '50';
+$var->II->vII = '200';
+$var->II->vIOF = '10';
 
-try {
-    // Carregar NFe de um arquivo XML
-    $nfe = new TNfe('/caminho/para/nfe.xml');
+$ii = new SeuObjeto();
+$resultado = $ii->II($var);
+print_r($resultado);
 
-    // Obter o protocolo de autorização
-    $protocolo = $nfe->getProtocolo();
+```
 
-    echo "Protocolo: " . $protocolo->protocolo_autorizacao;
-    echo "Data de Autorização: " . $protocolo->dt_autorizacao;
-    echo "Status: " . $protocolo->cd_status;
+### `PIS($var)`
 
-    // Obter as informações da seção <ide>
-    $ide = $nfe->getIde();
+Esse método processa as informações de PIS (Programa de Integração Social) a partir de um objeto de entrada e retorna um objeto com as propriedades pertinentes ao PIS.
 
-    echo "Número da NFe: " . $ide->ide_nNF;
-    echo "Modelo: " . $ide->ide_mod;
-    echo "Data de Emissão: " . $ide->ide_dhEmi;
-} catch (\Exception $e) {
-    echo "Erro: " . $e->getMessage();
+#### Parâmetros
+- **$var**: Um objeto contendo a estrutura de dados do PIS.
+
+#### Retorno
+Retorna um objeto do tipo `stdClass` com as seguintes propriedades:
+
+#### Para o tipo **PISAliq**:
+- **CST**: Código da situação tributária do PIS, presente se existir no objeto de entrada.
+- **vBC**: Valor da base de cálculo do PIS, presente se existir no objeto de entrada.
+- **pPIS**: Percentual da alíquota do PIS, presente se existir no objeto de entrada.
+- **vPIS**: Valor do PIS, presente se existir no objeto de entrada.
+
+#### Para o tipo **PISNT**:
+- **CST**: Código da situação tributária do PIS, presente se existir no objeto de entrada.
+
+#### Para o tipo **PISOutr**:
+- **CST**: Código da situação tributária do PIS, presente se existir no objeto de entrada.
+- **vBC**: Valor da base de cálculo do PIS, presente se existir no objeto de entrada.
+- **pPIS**: Percentual da alíquota do PIS, presente se existir no objeto de entrada.
+- **vPIS**: Valor do PIS, presente se existir no objeto de entrada.
+
+#### Para o tipo **PISQtde**:
+- **CST**: Código da situação tributária do PIS, presente se existir no objeto de entrada.
+- **vBC**: Valor da base de cálculo do PIS, presente se existir no objeto de entrada.
+- **pPIS**: Percentual da alíquota do PIS, presente se existir no objeto de entrada.
+- **vPIS**: Valor do PIS, presente se existir no objeto de entrada.
+- **qBCProd_pis**: Quantidade de produto na base de cálculo do PIS, presente se existir no objeto de entrada.
+- **vAliqProd_pis**: Valor da alíquota do PIS sobre o produto, presente se existir no objeto de entrada.
+
+#### Exemplo de Uso
+
+```php
+$var = new stdClass();
+// Exemplo de estrutura de dados de PIS
+$var->PIS = new stdClass();
+$var->PIS->PISAliq = new stdClass();
+$var->PIS->PISAliq->CST = '01';
+$var->PIS->PISAliq->vBC = '1000';
+$var->PIS->PISAliq->pPIS = '1.65';
+$var->PIS->PISAliq->vPIS = '16.50';
+
+$pis = new SeuObjeto();
+$resultado = $pis->PIS($var);
+print_r($resultado);
+
+```
+
+### `COFINS($var)`
+
+Esse método processa as informações de COFINS (Contribuição para o Financiamento da Seguridade Social) a partir de um objeto de entrada e retorna um objeto com as propriedades pertinentes ao COFINS.
+
+#### Parâmetros
+- **$var**: Um objeto contendo a estrutura de dados do COFINS.
+
+#### Retorno
+Retorna um objeto do tipo `stdClass` com as seguintes propriedades:
+
+#### Para o tipo **COFINSAliq**:
+- **CST**: Código da situação tributária do COFINS, presente se existir no objeto de entrada.
+- **vBC**: Valor da base de cálculo do COFINS, presente se existir no objeto de entrada.
+- **pCOFINS**: Percentual da alíquota do COFINS, presente se existir no objeto de entrada.
+- **vCOFINS**: Valor do COFINS, presente se existir no objeto de entrada.
+
+#### Para o tipo **COFINSNT**:
+- **CST**: Código da situação tributária do COFINS, presente se existir no objeto de entrada.
+
+#### Para o tipo **COFINSOutr**:
+- **CST**: Código da situação tributária do COFINS, presente se existir no objeto de entrada.
+- **vBC**: Valor da base de cálculo do COFINS, presente se existir no objeto de entrada.
+- **pCOFINS**: Percentual da alíquota do COFINS, presente se existir no objeto de entrada.
+- **vCOFINS**: Valor do COFINS, presente se existir no objeto de entrada.
+
+#### Para o tipo **COFINSQtde**:
+- **CST**: Código da situação tributária do COFINS, presente se existir no objeto de entrada.
+- **vBC**: Valor da base de cálculo do COFINS, presente se existir no objeto de entrada.
+- **pCOFINS**: Percentual da alíquota do COFINS, presente se existir no objeto de entrada.
+- **vCOFINS**: Valor do COFINS, presente se existir no objeto de entrada.
+- **qBCProd_cofins**: Quantidade de produto na base de cálculo do COFINS, presente se existir no objeto de entrada.
+- **vAliqProd_cofins**: Valor da alíquota do COFINS sobre o produto, presente se existir no objeto de entrada.
+
+#### Exemplo de Uso
+
+```php
+$var = new stdClass();
+// Exemplo de estrutura de dados de COFINS
+$var->COFINS = new stdClass();
+$var->COFINS->COFINSAliq = new stdClass();
+$var->COFINS->COFINSAliq->CST = '01';
+$var->COFINS->COFINSAliq->vBC = '2000';
+$var->COFINS->COFINSAliq->pCOFINS = '7.60';
+$var->COFINS->COFINSAliq->vCOFINS = '152.00';
+
+$cofins = new SeuObjeto();
+$resultado = $cofins->COFINS($var);
+print_r($resultado);
+
+```
+
+### `getProdutos()`
+
+#### Descrição
+O método `getProdutos()` é responsável por extrair e processar os detalhes dos produtos de uma nota fiscal eletrônica (NFe). Ele percorre os itens do XML da NFe e monta um objeto contendo informações sobre cada produto, como código, descrição, NCM, CFOP, valores de tributos (ICMS, IPI, PIS, COFINS, II) e outros dados adicionais de cada item.
+
+#### Retorno
+O método retorna um objeto contendo uma lista de itens, onde cada item é um objeto com os seguintes atributos:
+
+- **nItem**: Número do item.
+- **cProd**: Código do produto.
+- **cEAN**: Código EAN (código de barras).
+- **xProd**: Descrição do produto.
+- **NCM**: Código NCM do produto.
+- **nve**: Número de versão de exportação (se presente).
+- **cest**: Código CEST (se presente).
+- **CFOP**: Código Fiscal de Operações e Prestações.
+- **uCom**: Unidade de comercialização do produto.
+- **qCom**: Quantidade do produto.
+- **vUnCom**: Valor unitário do produto.
+- **vProd**: Valor total do produto.
+- **cEANTrib**: Código EAN do produto para fins de tributação.
+- **uTrib**: Unidade de tributação do produto.
+- **qTrib**: Quantidade tributada do produto.
+- **vUnTrib**: Valor unitário da tributação do produto.
+- **vFrete**: Valor do frete (se presente).
+- **vSeg**: Valor do seguro (se presente).
+- **vDesc**: Valor do desconto (se presente).
+- **vOutro**: Outros valores relacionados ao produto (se presente).
+- **indTot**: Indicador de totalização do item.
+- **xPed**: Código do pedido (se presente).
+- **nItemPed**: Número do item no pedido (se presente).
+- **nFCI**: Número do FCI (se presente).
+- **tipoTributo**: Tipo de tributação do ICMS.
+- **orig**: Origem do ICMS.
+- **cst_icms**: Código do ICMS.
+- **modBC**: Modalidade de cálculo da BC do ICMS.
+- **pRedBC**: Percentual de redução da base de cálculo do ICMS.
+- **vBC**: Valor da base de cálculo do ICMS.
+- **pICMS**: Percentual do ICMS.
+- **vICMS**: Valor do ICMS.
+- **vBCSTRet**: Valor da base de cálculo do ICMS ST retido.
+- **pST**: Percentual do ICMS ST.
+- **vICMSSubstituto**: Valor do ICMS Substituto.
+- **vICMSSTRet**: Valor do ICMS Substituto retido.
+- **vBCSTDest**: Valor da base de cálculo do ICMS ST destinado.
+- **vICMSSTDest**: Valor do ICMS ST destinado.
+- **modBCST**: Modalidade de cálculo da BC do ICMS ST.
+- **pMVAST**: Percentual de margem de valor agregado.
+- **vBCST**: Valor da base de cálculo do ICMS ST.
+- **pICMSST**: Percentual do ICMS ST.
+- **vICMSST**: Valor do ICMS ST.
+- **pCredSN**: Percentual de crédito do ICMS no Simples Nacional.
+- **vCredICMSSN**: Valor do crédito do ICMS no Simples Nacional.
+- **pRedBCST**: Percentual de redução da base de cálculo do ICMS ST.
+- **vICMSDeson**: Valor do ICMS desonerado.
+- **motDesICMS**: Motivo da desoneração do ICMS.
+- **vICMSOp**: Valor do ICMS sobre operações internas.
+- **pDif**: Percentual de diferença do ICMS.
+- **vICMSDif**: Valor do ICMS de diferença.
+- **vBCFCP**: Valor da base de cálculo do FCP.
+- **pFCP**: Percentual do FCP.
+- **vFCP**: Valor do FCP.
+- **vBCFCPST**: Valor da base de cálculo do FCP ST.
+- **pFCPST**: Percentual do FCP ST.
+- **vFCPST**: Valor do FCP ST.
+- **vBCFCPSTRet**: Valor da base de cálculo do FCP ST retido.
+- **pFCPSTRet**: Percentual do FCP ST retido.
+- **vFCPSTRet**: Valor do FCP ST retido.
+- **pRedBCEfet**: Percentual de redução da base de cálculo do ICMS Efetivo.
+- **vBCEfet**: Valor da base de cálculo do ICMS Efetivo.
+- **pICMSEfet**: Percentual do ICMS Efetivo.
+- **vICMSEfet**: Valor do ICMS Efetivo.
+- **enq_ipi**: Código de enquadramento do IPI.
+- **cst_ipi**: Código do IPI.
+- **vBCIPI**: Valor da base de cálculo do IPI.
+- **pIPI**: Percentual do IPI.
+- **vIPI**: Valor do IPI.
+- **vBCII**: Valor da base de cálculo do II.
+- **vDespAdu**: Valor das despesas aduaneiras.
+- **vII**: Valor do II.
+- **vIOF**: Valor do IOF.
+- **cst_pis**: Código do PIS.
+- **vBCPIS**: Valor da base de cálculo do PIS.
+- **pPIS**: Percentual do PIS.
+- **vPIS**: Valor do PIS.
+- **cst_cofins**: Código do COFINS.
+- **vBCCOFINS**: Valor da base de cálculo do COFINS.
+- **pCOFINS**: Percentual do COFINS.
+- **vCOFINS**: Valor do COFINS.
+- **nDI**: Número do DI (se presente).
+- **dDI**: Data do DI (se presente).
+- **xLocDesemb**: Local de desembarque (se presente).
+- **UFDesemb**: UF do desembarque (se presente).
+- **dDesemb**: Data de desembarque (se presente).
+- **tpViaTransp**: Tipo de via de transporte (se presente).
+- **vAFRMM**: Valor do AFRMM (se presente).
+- **tpIntermedio**: Tipo de intermediário (se presente).
+- **cExportador**: Código do exportador (se presente).
+- **nAdicao**: Número de adição (se presente).
+- **nSeqAdic**: Número de sequência de adição (se presente).
+- **cFabricante**: Código do fabricante (se presente).
+- **qBCProd_pis**: Quantidade da base de cálculo do PIS.
+- **vAliqProd_pis**: Valor da alíquota do PIS.
+- **qBCProd_cofins**: Quantidade da base de cálculo do COFINS.
+- **vAliqProd_cofins**: Valor da alíquota do COFINS.
+
+#### Exemplo de Uso
+
+```php
+$nfe = new NFeHandler($xml);
+$produtos = $nfe->getProdutos();
+
+foreach ($produtos as $produto) {
+    echo "Código do Produto: " . $produto->cProd . "\n";
+    echo "Descrição: " . $produto->xProd . "\n";
+    // Outros detalhes do produto...
 }
+
+```
+
+### `getParcelas()`
+
+#### Descrição
+O método `getParcelas()` é responsável por extrair informações sobre as parcelas de pagamento associadas à nota fiscal eletrônica (NFe). Ele recupera os dados do XML da NFe, incluindo o número da fatura, o número da parcela, a data de vencimento e o valor da parcela. Essas informações são retornadas em um objeto, onde cada parcela é representada por um objeto contendo os detalhes mencionados.
+
+#### Retorno
+O método retorna um objeto contendo uma lista de parcelas, onde cada parcela é representada por um objeto com os seguintes atributos:
+
+- `fatura`: Número da fatura associada à parcela.
+- `parcela`: Número da parcela.
+- `dt_vencimento`: Data de vencimento da parcela.
+- `vlr_parcela`: Valor da parcela.
+
+#### Exemplo de Uso
+
+```php
+$nfe = new NFeHandler($xml);
+$parcelas = $nfe->getParcelas();
+
+foreach ($parcelas as $parcela) {
+    echo "Número da Fatura: " . $parcela->fatura . "\n";
+    echo "Número da Parcela: " . $parcela->parcela . "\n";
+    echo "Data de Vencimento: " . $parcela->dt_vencimento . "\n";
+    echo "Valor da Parcela: " . $parcela->vlr_parcela . "\n";
+}
+
+```
+
+### `getObs()`
+
+#### Descrição
+O método `getObs()` é responsável por extrair informações adicionais de observação da nota fiscal eletrônica (NFe). Ele recupera os dados do XML da NFe relacionados às observações fiscais e complementares. O método verifica se as tags `<infAdFisco>` e `<infCpl>` estão presentes no XML e, se estiverem, retorna os valores desses campos. Se algum campo não estiver presente, o método retorna `NULL` para esse campo.
+
+#### Retorno
+O método retorna um objeto com os seguintes atributos:
+
+- `infAdFisco`: Informações adicionais fiscais, se presentes no XML. Caso contrário, `NULL`.
+- `infCpl`: Informações complementares, se presentes no XML. Caso contrário, `NULL`.
+
+#### Exemplo de Uso
+
+```php
+$nfe = new NFeHandler($xml);
+$observacoes = $nfe->getObs();
+
+echo "Informações Adicionais Fiscais: " . $observacoes->infAdFisco . "\n";
+echo "Informações Complementares: " . $observacoes->infCpl . "\n";
+
+```
+
+### `getNotaCab()`
+
+#### Descrição
+O método `getNotaCab()` é responsável por consolidar e retornar todas as informações principais de uma nota fiscal eletrônica (NFe). Ele coleta dados de várias seções da NFe, incluindo chave de acesso, protocolo, informações do emitente, destinatário, totais, transporte e observações adicionais, combinando todas essas informações em um único objeto. O método utiliza outros métodos da classe, como `getChave()`, `getProtocolo()`, `getIde()`, `getEmitente()`, `getDestinatario()`, `getTotal()`, `getTransporte()` e `getObs()`, para obter os dados necessários.
+
+#### Retorno
+O método retorna um objeto contendo as seguintes informações da NFe:
+
+- `chave`: A chave de acesso da NFe, obtida pelo método `getChave()`.
+- `protocolo`: Informações sobre o protocolo da NFe, obtidas pelo método `getProtocolo()`.
+- `ide`: Informações sobre a identificação da NFe, obtidas pelo método `getIde()`.
+- `emitente`: Dados sobre o emitente da NFe, obtidos pelo método `getEmitente()`.
+- `destinatario`: Dados sobre o destinatário da NFe, obtidos pelo método `getDestinatario()`.
+- `total`: Informações sobre os totais da NFe, obtidas pelo método `getTotal()`.
+- `transporte`: Informações sobre o transporte da NFe, obtidas pelo método `getTransporte()`.
+- `obs`: Informações adicionais e complementares sobre a NFe, obtidas pelo método `getObs()`.
+
+#### Exemplo de Uso
+
+```php
+$nfe = new NFeHandler($xml);
+$notaCabecalho = $nfe->getNotaCab();
+
+echo "Chave de Acesso: " . $notaCabecalho->chave . "\n";
+echo "Protocolo: " . $notaCabecalho->protocolo . "\n";
+echo "Emitente: " . $notaCabecalho->emitente . "\n";
+echo "Destinatário: " . $notaCabecalho->destinatario . "\n";
 
 ```
