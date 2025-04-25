@@ -21,6 +21,8 @@ Construtor da classe. Inicializa a classe validando o conteúdo informado, que p
 #### Exceções:
 - Lança uma exceção caso o arquivo não seja válido ou não possa ser lido.
 
+---
+
 ### `debug(...$valores)`
 
 Exibe um ou mais valores com `var_dump` formatado em HTML.
@@ -31,6 +33,8 @@ Exibe um ou mais valores com `var_dump` formatado em HTML.
 #### Retorno:
 - **void**: Não retorna nada. Apenas exibe os valores.
 
+---
+
 ### `tratadt($var)`
 
 Formata a data passada para o formato `Y-m-d H:i:s`.
@@ -40,6 +44,8 @@ Formata a data passada para o formato `Y-m-d H:i:s`.
 
 #### Retorno:
 - **string**: A data formatada no formato `Y-m-d H:i:s`.
+
+---
 
 ### `validaArquivo($arquivo, $tipo)`
 
@@ -52,6 +58,8 @@ Valida e carrega o conteúdo XML da NFe conforme o tipo informado. Aceita como e
 #### Exceções:
 - Lança uma exceção caso o arquivo não exista, o conteúdo seja inválido ou não contenha dados de autorização.
 
+---
+
 ### `getProtocolo()`
 
 Retorna as informações do protocolo de autorização da NFe, extraindo do XML os dados como número do protocolo, data/hora da autorização e o código de status da SEFAZ.
@@ -61,6 +69,8 @@ Retorna as informações do protocolo de autorização da NFe, extraindo do XML 
   - **protocolo_autorizacao** (string): Número do protocolo de autorização.
   - **dt_autorizacao** (string): Data e hora da autorização, já formatada.
   - **cd_status** (string): Código de status da SEFAZ.
+
+---
 
 ### `getIde()`
 
@@ -88,6 +98,8 @@ Retorna as informações da seção `<ide>` da NFe. Essa seção contém dados d
   - **ide_verProc** (string|null): Versão do processo de emissão.
   - **ide_dhCont** (string|null): Data/hora do contingência (se houver).
   - **ide_xJust** (string|null): Justificativa da contingência (se houver).
+
+---
 
 ### `getChave()`
 
@@ -224,7 +236,7 @@ Este método extrai informações do grupo de transporte da nota fiscal, incluin
 
 ---
 
-### `ICMS()`
+### `ICMS($var)`
 
 #### Descrição:
 Processa e formata as informações do ICMS de acordo com o tipo de tributação.
@@ -256,6 +268,26 @@ Detalhamento dos Tipos de ICMS:
 ```php
 $icmsData = $this->ICMS($var);
 
+---
+
+### `IPI($var)`
+
+#### Descrição:
+Esse método processa as informações de IPI (Imposto sobre Produtos Industrializados) a partir de um objeto de entrada e retorna um objeto com as propriedades pertinentes ao IPI.
+
+#### Parâmetros
+- **$var**: Um objeto contendo a estrutura de dados do IPI. Pode ter duas possíveis estruturas:
+  - `IPITrib`: Para informações de tributo do IPI.
+  - `IPINT`: Para informações de IPI não tributado.
+
+#### Retorno
+Retorna um objeto do tipo `stdClass` com as seguintes propriedades:
+
+- **cEnq**: Código da consulta, presente se existir em `IPITrib`.
+- **CST**: Código da Situação Tributária do IPI, presente tanto em `IPITrib` quanto em `IPINT`.
+- **vBC**: Valor da base de cálculo do IPI, presente se existir em `IPITrib`.
+- **pIPI**: Percentual do IPI, presente se existir em `IPITrib`.
+- **vIPI**: Valor do IPI, presente se existir em `IPITrib`.
 
 ## Exemplo de Uso
 
