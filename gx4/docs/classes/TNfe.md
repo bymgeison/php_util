@@ -266,7 +266,10 @@ Detalhamento dos Tipos de ICMS:
 
 #### Exemplo de Uso:
 ```php
+
 $icmsData = $this->ICMS($var);
+
+```
 
 ---
 
@@ -314,3 +317,5 @@ try {
 } catch (\Exception $e) {
     echo "Erro: " . $e->getMessage();
 }
+
+```
