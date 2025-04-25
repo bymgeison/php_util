@@ -4,25 +4,51 @@ A classe `TGx4` fornece métodos úteis conforme documentação a seguir.
 
 ---
 
-## 🔍 `TGx4::validaDocumento(string $valor): bool`
+## 🔍 `TGx4::validaDocumento(string $valor, string $tipoDocumento): array`
 
-Valida se o valor informado é um CPF ou CNPJ válido com base em seus dígitos verificadores.
+Valida diversos tipos de documentos, como CPF, CNPJ, RG, Título de Eleitor, NIS/PIS/PASEP, CNH e Passaporte. O método verifica a estrutura e os dígitos verificadores para garantir a validade do número do documento.
 
 ### Parâmetros
-- `string $valor`: Número do CPF ou CNPJ (com ou sem formatação).
+- `string $valor`: Número do documento a ser validado (pode ser CPF, CNPJ, RG, Título de Eleitor, NIS/PIS/PASEP, CNH ou Passaporte), com ou sem formatação.
+- `string $tipoDocumento`: O tipo do documento a ser validado (por exemplo, 'CPF', 'CNPJ', 'RG', 'TITULO_ELEITOR', 'NIS_PIS_PASEP', 'CNH', 'PASSAPORTE').
 
 ### Retorno
-- `bool`: Retorna `true` se o documento for válido.
+- `array`: Retorna um array com as chaves:
+  - `'valido'`: Um booleano indicando se o documento é válido.
+  - `'tipo'`: O tipo do documento ('CPF', 'CNPJ', 'RG', 'TITULO_ELEITOR', 'NIS_PIS_PASEP', 'CNH', 'PASSAPORTE').
 
 ### Exceções
-- Lança `Exception` com a mensagem `CPF inválido!` ou `CNPJ inválido!` em caso de erro.
+- Lança `Exception` com a mensagem apropriada caso o documento seja inválido, como "CPF inválido: dígito verificador incorreto" ou "CNPJ inválido: dígito verificador incorreto".
 
 ### Exemplos
 ```php
-TGx4::validaDocumento('390.533.447-05');       // true
-TGx4::validaDocumento('11.222.333/0001-81');   // true
-TGx4::validaDocumento('000.000.000-00');       // Exception: CPF inválido!
-TGx4::validaDocumento('12345678000100');       // Exception: CNPJ inválido!
+// CPF válido
+TGx4::validaDocumento('390.533.447-05', 'CPF');       // ['valido' => true, 'tipo' => 'CPF']
+
+// CNPJ válido
+TGx4::validaDocumento('11.222.333/0001-81', 'CNPJ');  // ['valido' => true, 'tipo' => 'CNPJ']
+
+// RG válido
+TGx4::validaDocumento('123456789', 'RG');             // ['valido' => true, 'tipo' => 'RG']
+
+// Título de Eleitor válido
+TGx4::validaDocumento('123456789012', 'TITULO_ELEITOR'); // ['valido' => true, 'tipo' => 'Título de Eleitor']
+
+// NIS/PIS/PASEP válido
+TGx4::validaDocumento('12345678901', 'NIS_PIS_PASEP');  // ['valido' => true, 'tipo' => 'NIS/PIS/PASEP']
+
+// CNH válida
+TGx4::validaDocumento('12345678901', 'CNH');           // ['valido' => true, 'tipo' => 'CNH']
+
+// Passaporte válido
+TGx4::validaDocumento('ABC123456', 'PASSAPORTE');      // ['valido' => true, 'tipo' => 'Passaporte']
+
+// CPF inválido
+TGx4::validaDocumento('000.000.000-00', 'CPF');        // Exception: CPF inválido: repetição de dígitos
+
+// CNPJ inválido
+TGx4::validaDocumento('12345678000100', 'CNPJ');       // Exception: CNPJ inválido: dígito verificador incorreto
+
 ```
 
 ## 🔍 `TGx4::formataDocumento(string $valor): string`
